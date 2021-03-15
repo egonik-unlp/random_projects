@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+import sys
+import os
+
+def main(*args):
+    for arg in args:
+        try:
+            os.rename(arg, f'/home/gonik/Documents/git/path_scripts/{arg}')
+        except FileNotFoundError:
+            print(f'nombre de archivo "{arg}" no encontrado en este directorio')
+
+if __name__ == '__main__':
+    
+    if len(sys.argv) > 1:
+        if sys.argv[1] == 'todos':
+            main(*[file for file in os.listdir() if file[-3:] == '.py'])        
+        elif len(sys.argv) >= 2 and sys.argv[1] != 'todos':
+            main(*[file for file in sys.argv[1:]])
+    else:
+        print(f'Mala sintaxis, sintaxis correcta -> {sys.argv[0]} nombres_de_archivos, o {sys.argv[0]} todos para copiar todos los archivos .py')
+
+
+
+
+
+
