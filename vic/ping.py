@@ -3,6 +3,8 @@
 import platform    # For getting the operating system name
 import subprocess  # For executing a shell command
 import time
+global ip
+ip = '192.168.0.194'
 
 def ping(host):
     """
@@ -20,20 +22,24 @@ def ping(host):
 
 
 def accion():
-    return 'go'
+    print( 'go')
 
 
 def main():
     while True:
-        if not ping('www.google.com'):
-            time.sleep(10)
+        if not ping(ip):
+            time.sleep(1)
+            print('Entrando en modo deteccion')
         else:
             accion()
             while True:
-                response = ping()
-                time.sleep(15)
+                response = ping(ip)
+                time.sleep(1)
                 if not response:
                     print('Hemos morido')
                     break
         
+
+if __name__ == '__main__':
+    main()
 
