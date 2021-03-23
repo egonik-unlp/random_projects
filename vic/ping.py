@@ -16,7 +16,7 @@ def ping(host):
     param = '-n' if platform.system().lower()=='windows' else '-c'
 
     # Building the command. Ex: "ping -c 1 google.com"
-    command = ['ping', param, '1', host]
+    command = ['ping', param, '1', host, '-q']
 
     return subprocess.call(command) == 0
 
@@ -27,10 +27,13 @@ def accion():
 
 def main():
     while True:
+        count = 0
         if not ping(ip):
             time.sleep(1)
-            print('Entrando en modo deteccion')
+            if count == 0: print('Intentando reconectar')
+            count += 1
         else:
+            print('Conectado!')
             accion()
             while True:
                 response = ping(ip)
@@ -38,7 +41,7 @@ def main():
                 if not response:
                     print('Hemos morido')
                     break
-        
+       
 
 if __name__ == '__main__':
     main()
