@@ -34,9 +34,17 @@ def main():
         for walker in walkers:
             world = walker.walk(world)
     return world
+
+
+def plot(world):
+    fig, ax = plt.subplots(1,1, figsize = (20,20))
+    ax.imshow(world.map, cmap = 'viridis' )
+    plt.axis('off')
+    plt.savefig('falopita.png')    
     
 
 
 if __name__=="__main__":
     j=main()
-    plt.imshow(j.map)
+    plot(j)
+    #plt.imshow(j.map)
