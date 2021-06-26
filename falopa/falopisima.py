@@ -9,20 +9,20 @@ import numpy as np
 import matplotlib.pyplot as plt 
 class World:
     def __init__(self):
-        self.map=np.zeros((2000,2000))
+        self.map=np.zeros((1080,1920))
 
 
 
 class Walker:
     def __init__(self, world: World) -> None:
-        self.location = np.random.randint(0,world.map.shape[1], size = 2)
+        self.location = np.random.randint(0,world.map.shape[0], size = 2)
     def walk(self, world) -> World:
-        self.location += np.random.choice([-1,1], 2)
+        self.location += np.random.choice([-1,0,1], 2)
         try:
-            world.map[tuple(self.location)] = 1
+            world.map[tuple(self.location)] += np.random.randint(0,100)
         except IndexError:
-            nloc = tuple(np.random.randint(0,world.map.shape[1], size = 2))
-            world.map[nloc] = 1
+            nloc = tuple(np.random.randint(0,world.map.shape[0], size = 2))
+            world.map[nloc] += np.random.randint(100)
         return world
         
 
@@ -30,17 +30,21 @@ class Walker:
 def main():
     world = World()
     walkers = [Walker(world) for _ in range(3)]
-    for _ in range (400000):
+    for _ in range (2000000):
         for walker in walkers:
             world = walker.walk(world)
+    np.savetxt('random_map_{}.txt'.format(np.random.randint(0,1000)), world.map)
     return world
 
 
+
+
 def plot(world):
-    fig, ax = plt.subplots(1,1, figsize = (20,20))
-    ax.imshow(world.map, cmap = 'viridis' )
+    fig, ax = plt.subplots(1,1, figsize = (16,9), dpi=600)
+    ax.imshow(world.map, cmap = 'plasma')
     plt.axis('off')
-    plt.savefig('falopita.png')    
+    plt.tight_layout()
+    plt.savefig('falopita_{}.png'.format(np.random.randint(2000)))    
     
 
 
