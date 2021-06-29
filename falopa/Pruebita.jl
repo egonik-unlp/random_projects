@@ -67,7 +67,13 @@ end
 w = genesis((x=1000,y=1000),10,1000000)
 
 # ╔═╡ 2e7fe31e-c8bd-451e-b747-8967cfd4d818
-heatmap(w.map, legend=:none, xaxis=false, yaxis=false)
+heatmap(w.map, legend=:none, axis=nothing)
+
+# ╔═╡ 0f806453-a7e6-464a-951d-870526d1abd6
+
+
+# ╔═╡ f8a56107-a809-4b0d-9f4b-ca017a50c9d6
+
 
 # ╔═╡ Cell order:
 # ╠═e007bfd7-aaae-4f12-9433-ddf23ad1b651
@@ -80,3 +86,5 @@ heatmap(w.map, legend=:none, xaxis=false, yaxis=false)
 # ╠═a4c06573-ec86-4fa3-bca0-031c54620185
 # ╠═4b5903ae-d9ce-4a5a-8613-71d55eee03bc
 # ╠═2e7fe31e-c8bd-451e-b747-8967cfd4d818
+# ╠═0f806453-a7e6-464a-951d-870526d1abd6
+# ╠═f8a56107-a809-4b0d-9f4b-ca017a50c9d6
