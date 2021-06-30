@@ -16,8 +16,19 @@ using PlutoUI
 # ╔═╡ 239a63e5-eafb-4474-9449-4c52dd72ae97
 using Plots
 
+# ╔═╡ bb242dbd-d741-4ae2-a89d-91a69a12fa37
+md"""
+# Entrega 1, curso Julia
+
+
+Debido a que no encontré un ejemplo asociado a mi tema de investigación (no trabajo en bioinformática) decidí recrear [este](https://github.com/egonik-unlp/random_projects/blob/master/falopa/falopisima.py) script para generar imagenes para fondos de pantalla y similares mediante random walkers, originalmente escrito en Python.
+
+
+"""
+
+
 # ╔═╡ 412217b0-d887-11eb-28dd-e18225384c9b
-mutable struct World
+struct World
 	shape::NamedTuple
 	map::Array
 	function World(shape::NamedTuple)
@@ -27,7 +38,7 @@ end
 
 
 # ╔═╡ ca4cb1c0-d2b1-4c35-98d2-824b1350705d
-mutable struct Walker
+struct Walker
 	world::World
 	position::Array
 	function Walker(world::World)
@@ -67,15 +78,13 @@ end
 w = genesis((x=1000,y=1000),10,1000000)
 
 # ╔═╡ 2e7fe31e-c8bd-451e-b747-8967cfd4d818
-heatmap(w.map, legend=:none, axis=nothing)
+heatmap(w.map, legend=:none, axis=nothing, dpi=300, size=(1920,1080), fmt=:png)
 
-# ╔═╡ 0f806453-a7e6-464a-951d-870526d1abd6
-
-
-# ╔═╡ f8a56107-a809-4b0d-9f4b-ca017a50c9d6
-
+# ╔═╡ 8c61665f-a834-4b58-b7a7-0cab2d28910d
+savefig("scrsvr.png") 
 
 # ╔═╡ Cell order:
+# ╟─bb242dbd-d741-4ae2-a89d-91a69a12fa37
 # ╠═e007bfd7-aaae-4f12-9433-ddf23ad1b651
 # ╠═6b4a769a-902a-4065-837b-78baade45871
 # ╠═ea94b04d-6754-4371-ab39-7a72578e3db0
@@ -86,5 +95,4 @@ heatmap(w.map, legend=:none, axis=nothing)
 # ╠═a4c06573-ec86-4fa3-bca0-031c54620185
 # ╠═4b5903ae-d9ce-4a5a-8613-71d55eee03bc
 # ╠═2e7fe31e-c8bd-451e-b747-8967cfd4d818
-# ╠═0f806453-a7e6-464a-951d-870526d1abd6
-# ╠═f8a56107-a809-4b0d-9f4b-ca017a50c9d6
+# ╠═8c61665f-a834-4b58-b7a7-0cab2d28910d
