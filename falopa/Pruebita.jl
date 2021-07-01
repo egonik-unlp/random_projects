@@ -38,7 +38,7 @@ end
 
 
 # ╔═╡ ca4cb1c0-d2b1-4c35-98d2-824b1350705d
-struct Walker
+mutable struct Walker
 	world::World
 	position::Array
 	function Walker(world::World)
@@ -51,7 +51,6 @@ function new_position(walker::Walker, world::World)
 	walker.position+=rand(-1:1, 2)
 	try
 		world.map[walker.position...] += 1
-		# println(walker.position)
 	catch y
 		if isa(y, BoundsError)
 			walker= Walker(world)
