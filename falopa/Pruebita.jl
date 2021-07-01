@@ -4,12 +4,6 @@
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ e007bfd7-aaae-4f12-9433-ddf23ad1b651
-using Pkg
-
-# ╔═╡ 6b4a769a-902a-4065-837b-78baade45871
-Pkg.add("PlutoUI")
-
 # ╔═╡ ea94b04d-6754-4371-ab39-7a72578e3db0
 using PlutoUI
 
@@ -84,8 +78,6 @@ savefig("scrsvr.png")
 
 # ╔═╡ Cell order:
 # ╟─bb242dbd-d741-4ae2-a89d-91a69a12fa37
-# ╠═e007bfd7-aaae-4f12-9433-ddf23ad1b651
-# ╠═6b4a769a-902a-4065-837b-78baade45871
 # ╠═ea94b04d-6754-4371-ab39-7a72578e3db0
 # ╠═239a63e5-eafb-4474-9449-4c52dd72ae97
 # ╠═ca4cb1c0-d2b1-4c35-98d2-824b1350705d
