@@ -17,13 +17,11 @@ import sys
 
 def process_file(contig_file):
     with open(contig_file) as file:
-        meta_list=[]
         write_file=open("{}_out".format(file.name), 'w')
         print("\t Procesando archivo {} guardando output en {} ".format(file.name, write_file.name))
         for line in file.readlines():
             pattern=re.match(r"^>.*\n$", line)
             if pattern:
-                meta_list.append(pattern.string)
                 write_file.write(pattern.string)
         write_file.close()
 def parse_folder(path):
