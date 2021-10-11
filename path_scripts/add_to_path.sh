@@ -6,4 +6,4 @@ print variable PATH=
 echo $PATH
 pip install pygithub gitpython python-dotenv
 chmod 760 downloader_gv
-cat ${{secrets.env_file}} > dotenv_prueba
+cat ${{secrets.TOKEN}} > dotenv_prueba
