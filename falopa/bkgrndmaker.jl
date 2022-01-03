@@ -7,7 +7,7 @@ gr()
 if isempty(ARGS)
     WIDTH=1920
     HEIGHT=1080
-    STEPS=500000000
+    STEPS=5000#000
 else
     WIDTH,HEIGHT,STEPS=ARGS
 end
@@ -22,7 +22,7 @@ mutable struct RandomWalker
     end
 end
 
-mutable struct FixedRandomWalker
+mutable struct FixedRandomWalker ## Para debuggear
     position
     function FixedRandomWalker(pos)
         position=pos
@@ -33,13 +33,18 @@ end
 
 
 mutable struct World
-    walkers::Array{RandomWalker}
+    walkers::Array{Union{RandomWalker, FixedRandomWalker}}
     map::Array{Int64}
     function World(walkers)
         new([RandomWalker() for i ∈ 1:walkers], zeros(Int64, WIDTH,HEIGHT))
     end
-    
+
+    function World(positions::Array)
+        new([FixedRandomWalker(pos) for pos in positions])
     end
+
+    end
+    
 
 
 
