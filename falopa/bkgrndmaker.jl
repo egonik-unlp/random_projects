@@ -1,15 +1,57 @@
-using Plots, JLD, ColorSchemes
+#!/usr/bin/env julia 
+
+
+using Plots, JLD, ColorSchemes, ArgParse
 
 
 gr()
 
 
-if isempty(ARGS)
-    WIDTH=1920
-    HEIGHT=1080
-    STEPS=5000#000
-else
-    WIDTH,HEIGHT,STEPS=ARGS
+
+function parse_commandline()
+    s = ArgParseSettings()
+    @add_arg_table s begin
+        "--vres"
+        help = "vertical resolution of the generated map"
+        arg_type = Int
+        default = 1080
+        "--hres"
+        help = "horizontal resolution of the generated map"
+        arg_type = Int
+        default = 1920
+        "--walkers", "-w"
+        help="Sets the number of walkers"
+        arg_type=Int
+        default=10
+        "--steps","-s"
+        help = "number of steps taken by the walkers"
+        arg_type = Int
+        default = 1_000_000
+        "--cmap"
+        help = "Select cmap for the generated heatmap. A list is available at https://docs.juliaplots.org/latest/generated/colorschemes/"
+        arg_type=Symbol
+        default=:oslo
+
+
+    end
+    parse_args(s)    
+end
+
+
+
+function main()
+    args=parse_commandline()
+    global HEIGHT  = args["vres"]
+    global WIDTH = args["hres"]
+    global STEPS = args["steps"]
+    global CMAP = args["cmap"] |> Symbol
+    world=World(args["walkers"])
+    for step ∈ 1:STEPS
+        step!(world)
+    end 
+    @info """Running background generator with $WIDTH x $HEIGHT resolution, $STEPS steps and $(length(world.walkers)) walkers"""
+    world
+
 end
 
 
@@ -51,29 +93,27 @@ mutable struct World
 function move!(walker::Union{RandomWalker, FixedRandomWalker})
     δ=rand(-1:1,2)
     n_pos = sum(δ + walker.position .∉ [1:WIDTH, 1:HEIGHT]) != 0 ? [rand(1:WIDTH), rand(1:HEIGHT)] : δ + walker.position
-    walker.position=n_pos
-    n_pos, rand(1:256) 
+    walker.position=n_pos 
     end
 
 function step!(world::World)
     for walker ∈ world.walkers
-        pos, val = move!(walker)
-        world.map[pos...]+=val
+        move!(walker)
+        world.map[walker.position...] += 1
     end
 end
+
+
 ###------> Main Program <-----###
 
-world=World(2)
+
+world=main()
 
 
-
-for step ∈ 1:STEPS
-    step!(world)
-end
 
 p=Plots.heatmap(
     world.map, 
-    c= :oslo,
+    c= CMAP,
     legend=:none,
     border=:none, 
     axis=nothing,
@@ -82,7 +122,9 @@ p=Plots.heatmap(
     levels=1000
     )
 
-rnd_str=rand(1:200)
+    rnd_str=rand(1:200)
 
 Plots.savefig(p,"plot_$rnd_str")
 save("arr_$rnd_str.jld", "mapa", world.map)
+
+@info "Plot saved in ./plot_$rnd_str.png, Array saved in ./arr_$rnd_str.jld"
