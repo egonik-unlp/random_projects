@@ -1,7 +1,7 @@
 #!/usr/bin/env julia 
 
 
-using Plots, JLD, ColorSchemes, ArgParse
+using Plots, JLD, ColorSchemes, ArgParse, CircularArrays
 
 
 gr()
@@ -76,13 +76,13 @@ end
 
 mutable struct World
     walkers::Array{Union{RandomWalker, FixedRandomWalker}}
-    map::Array{Int64}
+    map::CircularArray{Int64}
     function World(walkers)
-        new([RandomWalker() for i ∈ 1:walkers], zeros(Int64, WIDTH,HEIGHT))
+        new([RandomWalker() for i ∈ 1:walkers], CircularArray(zeros(Int64, WIDTH,HEIGHT)))
     end
 
     function World(positions::Array)
-        new([FixedRandomWalker(pos) for pos in positions])
+        new([FixedRandomWalker(pos) for pos in positions], CircularArray(zeros(Int64, WIDTH,HEIGHT)))
     end
 
     end
@@ -92,8 +92,7 @@ mutable struct World
 
 function move!(walker::Union{RandomWalker, FixedRandomWalker})
     δ=rand(-1:1,2)
-    n_pos = sum(δ + walker.position .∉ [1:WIDTH, 1:HEIGHT]) != 0 ? [rand(1:WIDTH), rand(1:HEIGHT)] : δ + walker.position
-    walker.position=n_pos 
+    walker.position=δ + walker.position
     end
 
 function step!(world::World)
